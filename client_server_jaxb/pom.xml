@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.fhac.kosy.xml</groupId>
+    <artifactId>XMLSerialisation</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <properties>
+        <java.version>11</java.version>
+        <main.class>de.fhac.kosy.xml.XMLSerialisation</main.class>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <xsd.sources.dir>src/main/resources</xsd.sources.dir>
+        <generated.classes.dir>${project.build.sourceDirectory}</generated.classes.dir>
+        <generated.classes.package>${project.groupId}.generated</generated.classes.package>
+    </properties>
+
+    <dependencies>
+        <!-- JAXB API only -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+        <!-- JAXB RI, Jakarta XML Binding -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>3.0.2</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- mvn jaxb2:xjc -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- Define the directory where we should find the XSD files -->
+                    <sources>
+                        <source>src/main/resources</source>
+                    </sources>
+                    <!-- The package of your generated sources -->
+                    <packageName>${generated.classes.package}</packageName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
